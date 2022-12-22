@@ -28,3 +28,24 @@ for num in primes.prefix(10){
 print(sum50)
 
 
+// MARK: -- Ejercicio 3 --
+
+var players: [String] = ["Vinicius", "Messi", "Ronaldo", "Pedri", "Mbappe", "Modric", "Militao", "Morata", "Valverde", "Benzema", "Piqué" ]
+let vowels = "aeiou"
+
+let playersVowels = players.filter({$0.filter({vowels.contains($0)}).count > 2})
+
+
+// MARK: -- Ejercicio 4 --
+
+enum PlayerPosition: String {
+    case portero = "Portero"
+    case lateralDerecho = "Lateral derecho"
+    case central = "Central"
+    case lateralIzquierdo = "Lateral izquierdo"
+    case medioCentro = "Medio centro"
+    case extremoDerecho = "Extremo derecho"
+    case extremoIzquierdo = "Extremo izquierdo"
+    case delantero = "Delantero"
+}
+
