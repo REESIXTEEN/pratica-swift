@@ -54,21 +54,22 @@ enum PlayerPosition: String {
 class MiembroSeleccion {
     let nombre: String
     let edad: Int
-    enum tipo: String {
-        case jugador = "Jugador"
-        case seleccionador = "Seleccionador"
-        case cuerpoTecnico = "Cuerpo técnico"
-        case medico = "Médico"
-        case utillero = "Utillero"
-    }
+    let tipo: String
     
-    init(nombre:String = "",edad:Int = 0){
+    init(_ nombre:String = "", _ edad:Int = 0, _ tipo:String = ""){
         self.nombre = nombre
         self.edad = edad
+        self.tipo = tipo
     }
 }
 
-
+enum tipoMiembro: String {
+    case jugador = "Jugador"
+    case seleccionador = "Seleccionador"
+    case cuerpoTecnico = "Cuerpo técnico"
+    case medico = "Médico"
+    case utillero = "Utillero"
+}
 
 
 // MARK: ---------- Ejercicio 6 ----------
@@ -79,7 +80,7 @@ class Mundial {
     let pais: String
     let año: Int
     
-    init(selecciones:Array<Seleccion> = [], arbitros:Array<String> = [], pais: String = "Catar", año:Int = 2022){
+    init(_ selecciones:Array<Seleccion> = [], _ arbitros:Array<String> = [], _ pais: String = "Catar", _ año:Int = 2022){
         self.selecciones = selecciones
         self.arbitros = arbitros
         self.pais = pais
@@ -93,12 +94,64 @@ class Seleccion {
     let jugadores: Array<MiembroSeleccion>
     let seleccionador: MiembroSeleccion
     
-    init(nombre:String, pais:String, jugadores:Array<MiembroSeleccion>, seleccionador:MiembroSeleccion){
+    init(_ nombre:String, _ pais:String, _ jugadores:Array<MiembroSeleccion>, _ seleccionador:MiembroSeleccion){
         self.nombre = nombre
         self.pais = pais
         self.jugadores = jugadores
         self.seleccionador = seleccionador
     }
 }
+
+
+// MARK: ---------- Ejercicio 7 ----------
+
+class Partido {
+    let local: Seleccion
+    let visitante: Seleccion
+    var resultado = (golesLocal:0,golesVisitante:0)
+    
+    init(_ local:Seleccion, _ visitante:Seleccion) {
+        self.local = local
+        self.visitante = visitante
+    }
+    
+    func jugarPartido() {
+        resultado.0 = Int.random(in: 0...10)
+        resultado.1 = Int.random(in: 0...10)
+    }
+}
+
+let jugador1: MiembroSeleccion = MiembroSeleccion("Messi", 34, tipoMiembro.jugador.rawValue)
+let jugador2: MiembroSeleccion = MiembroSeleccion("Di Maria", 35, tipoMiembro.jugador.rawValue)
+let jugador3: MiembroSeleccion = MiembroSeleccion("Pedri", 20, tipoMiembro.jugador.rawValue)
+let jugador4: MiembroSeleccion = MiembroSeleccion("Gavi", 18, tipoMiembro.jugador.rawValue)
+let jugador5: MiembroSeleccion = MiembroSeleccion("Mbappe", 23, tipoMiembro.jugador.rawValue)
+let jugador6: MiembroSeleccion = MiembroSeleccion("Griezman", 31, tipoMiembro.jugador.rawValue)
+
+let entrenador1: MiembroSeleccion = MiembroSeleccion("Scaloni", 40, tipoMiembro.seleccionador.rawValue)
+let entrenador2: MiembroSeleccion = MiembroSeleccion("Luis Padrique", 53, tipoMiembro.seleccionador.rawValue)
+let entrenador3: MiembroSeleccion = MiembroSeleccion("Deschamps", 54, tipoMiembro.seleccionador.rawValue)
+
+let argentina:Seleccion = Seleccion("Argentina", "Argentina", [jugador1,jugador2],entrenador1)
+let españa:Seleccion = Seleccion("España", "España", [jugador3,jugador4],entrenador2)
+let francia:Seleccion = Seleccion("Francia", "Francia", [jugador5,jugador6],entrenador3)
+
+let mundial: Mundial = Mundial([argentina,españa,francia],["Mateo", "Pepe"], "Catar", 2022)
+
+var partidos: Array<Partido> = []
+
+while partidos.count < 4 {
+    var selecciones = mundial.selecciones
+    selecciones = selecciones.shuffled()
+    partidos.append(Partido(selecciones[0],selecciones[1]))
+}
+
+for partido in partidos{
+    partido.jugarPartido()
+    print("Partido: \(partido.local.nombre) \(partido.resultado.golesLocal) - \(partido.resultado.golesVisitante) \(partido.visitante.nombre)")
+}
+
+
+// MARK: ---------- Ejercicio 8 ----------
 
 
