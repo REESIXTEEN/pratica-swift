@@ -21,4 +21,10 @@ print(primes.suffix(10))
 
 // MARK: -- Ejercicio 2 --
 
+var sum50 = 0
+for num in primes.prefix(10){
+    sum50 += num
+}
+print(sum50)
+
 
