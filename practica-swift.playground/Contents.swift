@@ -86,6 +86,21 @@ class Mundial {
         self.pais = pais
         self.año = año
     }
+    
+    //  -- ejercicio 8 --
+    var grupos: Array<Grupo> = []
+    
+    func establecerGrupos() {
+        let tamañoGrupo = 4
+        var seleccionesSorteo = selecciones.shuffled()
+        let nombresGrupos = ["A","B","C","D","E","F","G","H"]
+        for nombre in nombresGrupos where seleccionesSorteo.count > 0 {
+            var seleccionesGrupo = Array(seleccionesSorteo.prefix(tamañoGrupo))
+            seleccionesSorteo.removeFirst(tamañoGrupo)
+            var grupo = Grupo("Grupo \(nombre)", seleccionesGrupo)
+            grupos.append(grupo)
+        }
+    }
 }
 
 class Seleccion {
@@ -127,16 +142,23 @@ let jugador3: MiembroSeleccion = MiembroSeleccion("Pedri", 20, tipoMiembro.jugad
 let jugador4: MiembroSeleccion = MiembroSeleccion("Gavi", 18, tipoMiembro.jugador.rawValue)
 let jugador5: MiembroSeleccion = MiembroSeleccion("Mbappe", 23, tipoMiembro.jugador.rawValue)
 let jugador6: MiembroSeleccion = MiembroSeleccion("Griezman", 31, tipoMiembro.jugador.rawValue)
+let jugador7: MiembroSeleccion = MiembroSeleccion("Vini", 20, tipoMiembro.jugador.rawValue)
+let jugador8: MiembroSeleccion = MiembroSeleccion("Neymar", 31, tipoMiembro.jugador.rawValue)
+
 
 let entrenador1: MiembroSeleccion = MiembroSeleccion("Scaloni", 40, tipoMiembro.seleccionador.rawValue)
 let entrenador2: MiembroSeleccion = MiembroSeleccion("Luis Padrique", 53, tipoMiembro.seleccionador.rawValue)
 let entrenador3: MiembroSeleccion = MiembroSeleccion("Deschamps", 54, tipoMiembro.seleccionador.rawValue)
+let entrenador4: MiembroSeleccion = MiembroSeleccion("Tite", 54, tipoMiembro.seleccionador.rawValue)
+
 
 let argentina:Seleccion = Seleccion("Argentina", "Argentina", [jugador1,jugador2],entrenador1)
 let españa:Seleccion = Seleccion("España", "España", [jugador3,jugador4],entrenador2)
 let francia:Seleccion = Seleccion("Francia", "Francia", [jugador5,jugador6],entrenador3)
+let brasil:Seleccion = Seleccion("Brasil", "Brasil", [jugador7,jugador8],entrenador4)
 
-let mundial: Mundial = Mundial([argentina,españa,francia],["Mateo", "Pepe"], "Catar", 2022)
+
+let mundial: Mundial = Mundial([argentina,españa,francia,brasil],["Mateo", "Pepe"], "Catar", 2022)
 
 var partidos: Array<Partido> = []
 
@@ -154,4 +176,50 @@ for partido in partidos{
 
 // MARK: ---------- Ejercicio 8 ----------
 
+class Grupo {
+    let nombre: String
+    let participantes: Array<Seleccion>
+    var partidos: Array<Partido> = []
+    
+    init(_ nombre:String = "", _ participantes:Array<Seleccion> = []) {
+        self.nombre = nombre
+        self.participantes = participantes
+    }
+    
+    func resumen() {
+        print("----- \(nombre) -----")
+        participantes.forEach({print($0.nombre)})
+    }
+    
+    func establecerPartidos() {
+        for index in 0..<participantes.count {
+            for n in index..<participantes.count-1{
+                var partido = Partido(participantes[index],participantes[n+1])
+                partidos.append(partido)
+            }
+            
+        }
+        
+    }
+}
 
+
+/* --- Añadido a la clase Mundial ---
+ var grupos: Array<Grupo> = []
+ 
+ func establecerGrupos() {
+     let tamañoGrupo = 4
+     var seleccionesSorteo = selecciones.shuffled()
+     let nombresGrupos = ["A","B","C","D","E","F","G","H"]
+     for nombre in nombresGrupos where seleccionesSorteo.count > 0 {
+         var seleccionesGrupo = Array(seleccionesSorteo.prefix(tamañoGrupo))
+         seleccionesSorteo.removeFirst(tamañoGrupo)
+         var grupo = Grupo("Grupo \(nombre)", seleccionesGrupo ,[])
+         grupos.append(grupo)
+     }
+ }
+ */
+
+mundial.establecerGrupos()
+mundial.grupos.forEach({$0.resumen()})
+mundial.grupos.forEach({$0.establecerPartidos()})

@@ -3,7 +3,11 @@
    version = "3.0">
    <TimelineItems>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/pablich/Documents/keepcoding/modulo_swift/practica-swift/practica-swift.playground#CharacterRangeLen=0&amp;CharacterRangeLoc=740&amp;EndingColumnNumber=80&amp;EndingLineNumber=35&amp;StartingColumnNumber=80&amp;StartingLineNumber=35&amp;Timestamp=693436483.534748"
+         documentLocation = "file:///Users/pablich/Documents/keepcoding/modulo_swift/practica-swift/practica-swift.playground#CharacterRangeLen=0&amp;CharacterRangeLoc=740&amp;EndingColumnNumber=80&amp;EndingLineNumber=35&amp;StartingColumnNumber=80&amp;StartingLineNumber=35&amp;Timestamp=693502818.28543"
+         selectedRepresentationIndex = "0">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "file:///Users/pablich/Documents/keepcoding/modulo_swift/practica-swift/practica-swift.playground#CharacterRangeLen=14&amp;CharacterRangeLoc=6806&amp;EndingColumnNumber=15&amp;EndingLineNumber=223&amp;StartingColumnNumber=1&amp;StartingLineNumber=223&amp;Timestamp=693502818.285601"
          selectedRepresentationIndex = "0">
       </LoggerValueHistoryTimelineItem>
    </TimelineItems>
