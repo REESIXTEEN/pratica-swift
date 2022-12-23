@@ -123,7 +123,8 @@ class Seleccion {
 class Partido {
     let local: Seleccion
     let visitante: Seleccion
-    var resultado = (golesLocal:0,golesVisitante:0)
+    var resultadoGoles = (golesLocal:0,golesVisitante:0)
+    var resultado = ""
     
     init(_ local:Seleccion, _ visitante:Seleccion) {
         self.local = local
@@ -131,8 +132,17 @@ class Partido {
     }
     
     func jugarPartido() {
-        resultado.0 = Int.random(in: 0...10)
-        resultado.1 = Int.random(in: 0...10)
+        resultadoGoles.0 = Int.random(in: 0...10)
+        resultadoGoles.1 = Int.random(in: 0...10)
+        switch resultadoGoles{
+        case let(l,v) where (l > v):
+            resultado = local.nombre
+        case let(l,v) where (l < v):
+            resultado = visitante.nombre
+        default:
+            resultado = "empate"
+        }
+        
     }
 }
 
@@ -170,7 +180,7 @@ while partidos.count < 4 {
 
 for partido in partidos{
     partido.jugarPartido()
-    print("Partido: \(partido.local.nombre) \(partido.resultado.golesLocal) - \(partido.resultado.golesVisitante) \(partido.visitante.nombre)")
+    print("Partido: \(partido.local.nombre) \(partido.resultadoGoles.golesLocal) - \(partido.resultadoGoles.golesVisitante) \(partido.visitante.nombre)")
 }
 
 
@@ -199,8 +209,25 @@ class Grupo {
             }
             
         }
-        
     }
+    
+    // --- ejercicio 9 ---
+    func obtenerPuntos(seleccion:Seleccion) -> Int{
+        var puntosTotales = 0
+        var partidosJugados = partidos.filter({$0.local.nombre == seleccion.nombre || $0.visitante.nombre == seleccion.nombre})
+        for partido in partidosJugados{
+            switch partido.resultado{
+            case seleccion.nombre:
+                puntosTotales += 3
+            case "empate":
+                puntosTotales += 1
+            default:
+                puntosTotales += 0
+            }
+        }
+        return puntosTotales
+    }
+    
 }
 
 
@@ -220,6 +247,32 @@ class Grupo {
  }
  */
 
-mundial.establecerGrupos()
-mundial.grupos.forEach({$0.resumen()})
-mundial.grupos.forEach({$0.establecerPartidos()})
+mundial.establecerGrupos() //establecer grupos de forma aleatoria
+mundial.grupos.forEach({$0.resumen()})  // mostrar los grupos creados
+mundial.grupos.forEach({$0.establecerPartidos()}) // establecer los partidos de cada grupo
+mundial.grupos.forEach({$0.partidos.forEach({$0.jugarPartido()})}) // jugar los partidos de cada grupo
+
+
+// MARK: ---------- Ejercicio 9 ----------
+
+/* --- Añadido a la clase Grupo ---
+ func obtenerPuntos(seleccion:Seleccion) -> Int{
+     var puntosTotales = 0
+     var partidosJugados = partidos.filter({$0.local.nombre == seleccion.nombre || $0.visitante.nombre == seleccion.nombre})
+     for partido in partidosJugados{
+         switch partido.resultado{
+         case seleccion.nombre:
+             puntosTotales += 3
+         case "empate":
+             puntosTotales += 1
+         default:
+             puntosTotales += 0
+         }
+     }
+     return puntosTotales
+ }
+ */
+
+for seleccion in mundial.selecciones{
+    mundial.grupos.forEach({print("Puntos de \(seleccion.nombre) : \($0.obtenerPuntos(seleccion: seleccion))")})
+}
