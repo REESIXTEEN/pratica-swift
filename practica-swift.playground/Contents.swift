@@ -108,6 +108,7 @@ class Seleccion {
     let pais: String
     let jugadores: Array<MiembroSeleccion>
     let seleccionador: MiembroSeleccion
+    var puntosTotales: Int = 0
     
     init(_ nombre:String, _ pais:String, _ jugadores:Array<MiembroSeleccion>, _ seleccionador:MiembroSeleccion){
         self.nombre = nombre
@@ -154,22 +155,36 @@ let jugador5: MiembroSeleccion = MiembroSeleccion("Mbappe", 23, tipoMiembro.juga
 let jugador6: MiembroSeleccion = MiembroSeleccion("Griezman", 31, tipoMiembro.jugador.rawValue)
 let jugador7: MiembroSeleccion = MiembroSeleccion("Vini", 20, tipoMiembro.jugador.rawValue)
 let jugador8: MiembroSeleccion = MiembroSeleccion("Neymar", 31, tipoMiembro.jugador.rawValue)
-
+let jugador9: MiembroSeleccion = MiembroSeleccion("Modric", 37, tipoMiembro.jugador.rawValue)
+let jugador10: MiembroSeleccion = MiembroSeleccion("Perisisc", 33, tipoMiembro.jugador.rawValue)
+let jugador11: MiembroSeleccion = MiembroSeleccion("Pedro", 24, tipoMiembro.jugador.rawValue)
+let jugador12: MiembroSeleccion = MiembroSeleccion("Julian", 32, tipoMiembro.jugador.rawValue)
+let jugador13: MiembroSeleccion = MiembroSeleccion("Van Dik", 26, tipoMiembro.jugador.rawValue)
+let jugador14: MiembroSeleccion = MiembroSeleccion("De Jon", 26, tipoMiembro.jugador.rawValue)
+let jugador15: MiembroSeleccion = MiembroSeleccion("Carter", 20, tipoMiembro.jugador.rawValue)
+let jugador16: MiembroSeleccion = MiembroSeleccion("Rupert", 31, tipoMiembro.jugador.rawValue)
 
 let entrenador1: MiembroSeleccion = MiembroSeleccion("Scaloni", 40, tipoMiembro.seleccionador.rawValue)
 let entrenador2: MiembroSeleccion = MiembroSeleccion("Luis Padrique", 53, tipoMiembro.seleccionador.rawValue)
 let entrenador3: MiembroSeleccion = MiembroSeleccion("Deschamps", 54, tipoMiembro.seleccionador.rawValue)
 let entrenador4: MiembroSeleccion = MiembroSeleccion("Tite", 54, tipoMiembro.seleccionador.rawValue)
-
+let entrenador5: MiembroSeleccion = MiembroSeleccion("Moldivic", 46, tipoMiembro.seleccionador.rawValue)
+let entrenador6: MiembroSeleccion = MiembroSeleccion("Santiago", 50, tipoMiembro.seleccionador.rawValue)
+let entrenador7: MiembroSeleccion = MiembroSeleccion("Van Gahl", 68, tipoMiembro.seleccionador.rawValue)
+let entrenador8: MiembroSeleccion = MiembroSeleccion("John", 37, tipoMiembro.seleccionador.rawValue)
 
 let argentina:Seleccion = Seleccion("Argentina", "Argentina", [jugador1,jugador2],entrenador1)
 let españa:Seleccion = Seleccion("España", "España", [jugador3,jugador4],entrenador2)
 let francia:Seleccion = Seleccion("Francia", "Francia", [jugador5,jugador6],entrenador3)
 let brasil:Seleccion = Seleccion("Brasil", "Brasil", [jugador7,jugador8],entrenador4)
+let croacia:Seleccion = Seleccion("Croacia", "Croacia", [jugador9,jugador10],entrenador5)
+let ecuador:Seleccion = Seleccion("Ecuador", "Ecuador", [jugador11,jugador12],entrenador6)
+let holanda:Seleccion = Seleccion("Holanda", "Holanda", [jugador13,jugador14],entrenador7)
+let australia:Seleccion = Seleccion("Australia", "Australia", [jugador15,jugador16],entrenador8)
 
+let mundial: Mundial = Mundial([argentina,españa,francia,brasil,croacia,ecuador,holanda,australia],["Mateo", "Pepe"], "Catar", 2022)
 
-let mundial: Mundial = Mundial([argentina,españa,francia,brasil],["Mateo", "Pepe"], "Catar", 2022)
-
+// generar unos partidos aleatorios y mostrar su resultado
 var partidos: Array<Partido> = []
 
 while partidos.count < 4 {
@@ -212,7 +227,7 @@ class Grupo {
     }
     
     // --- ejercicio 9 ---
-    func obtenerPuntos(seleccion:Seleccion) -> Int{
+    func obtenerPuntos(seleccion:Seleccion){
         var puntosTotales = 0
         var partidosJugados = partidos.filter({$0.local.nombre == seleccion.nombre || $0.visitante.nombre == seleccion.nombre})
         for partido in partidosJugados{
@@ -225,7 +240,7 @@ class Grupo {
                 puntosTotales += 0
             }
         }
-        return puntosTotales
+        seleccion.puntosTotales = puntosTotales
     }
     
 }
@@ -256,7 +271,7 @@ mundial.grupos.forEach({$0.partidos.forEach({$0.jugarPartido()})}) // jugar los 
 // MARK: ---------- Ejercicio 9 ----------
 
 /* --- Añadido a la clase Grupo ---
- func obtenerPuntos(seleccion:Seleccion) -> Int{
+ func obtenerPuntos(seleccion:Seleccion){
      var puntosTotales = 0
      var partidosJugados = partidos.filter({$0.local.nombre == seleccion.nombre || $0.visitante.nombre == seleccion.nombre})
      for partido in partidosJugados{
@@ -269,10 +284,21 @@ mundial.grupos.forEach({$0.partidos.forEach({$0.jugarPartido()})}) // jugar los 
              puntosTotales += 0
          }
      }
-     return puntosTotales
+     seleccion.puntosTotales = puntosTotales
  }
  */
 
-for seleccion in mundial.selecciones{
-    mundial.grupos.forEach({print("Puntos de \(seleccion.nombre) : \($0.obtenerPuntos(seleccion: seleccion))")})
-}
+
+// MARK: ---------- Ejercicio 10 ----------
+
+// calcular los puntos obtenidos por todas las selccinoes en cada grupo
+mundial.grupos.forEach({grupo in
+    grupo.participantes.forEach({grupo.obtenerPuntos(seleccion:$0)})
+})
+
+//obtener los dos primeros clasificados de cada grupo
+mundial.grupos.forEach({grupo in
+    var clasificadas = grupo.participantes.sorted{$0.puntosTotales > $1.puntosTotales}.prefix(2)
+    print("\(grupo.nombre) : 1º \(clasificadas[0].nombre) (\(clasificadas[0].puntosTotales) puntos)  2º \(clasificadas[1].nombre) (\(clasificadas[1].puntosTotales) puntos) ")
+})
+
